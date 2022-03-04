@@ -11,6 +11,7 @@ namespace RRTest.UI.ItemsVisualizators
 
         public virtual void UpdateItem(T _item)
         {
+            (item as BaseItem).OnChangeItem -= () => UpdateItem(item);
             item = _item;
             (item as BaseItem).OnChangeItem += () => UpdateItem(item);
         }

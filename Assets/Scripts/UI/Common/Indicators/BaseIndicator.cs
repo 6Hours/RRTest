@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-namespace VenCore.UI.Common
+namespace VenCore.UI.Common.Indicators
 {
     public abstract class BaseIndicator<T>
     {
-        [SerializeField] private Text textElement;
-        public T currentValue = default;
-
+        [SerializeField] protected Text textElement;
+        protected T currentValue;
         public abstract void UpdateValue(T value);
 
-        private void SetText()
+        public virtual void SetText(T value)
         {
-            textElement.text = currentValue.ToString();
+            textElement.text = value.ToString();
         }
     }
 }
