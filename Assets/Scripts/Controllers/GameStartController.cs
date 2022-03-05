@@ -10,8 +10,9 @@ public class GameStartController : MonoBehaviour
 {
     [SerializeField] PlayerDeck playerDeck;
     [SerializeField] GameObject cardPrefab;
+    [SerializeField] Transform canvasTransform;
 
-    public string url = "https://images.earthcam.com/ec_metros/ourcams/fridays.jpg";
+    public string url = "https://picsum.photos/200/200.jpg";
 
     IEnumerator Start()
     {
@@ -19,7 +20,7 @@ public class GameStartController : MonoBehaviour
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
             yield return request.SendWebRequest();
-            if (request.result != UnityWebRequest.Result.ConnectionError)
+            if (request.result == UnityWebRequest.Result.ConnectionError)
             {
                 Debug.Log(request.error);
                 i--;
@@ -28,7 +29,7 @@ public class GameStartController : MonoBehaviour
             else
             {
                 var texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
-                var card = Instantiate(cardPrefab).GetComponent<CardItemVisualizator>();
+                var card = Instantiate(cardPrefab, canvasTransform).GetComponent<CardItemVisualizator>();
                 card.UpdateItem(new CardItem(
                     i.ToString(), 
                     (6 - i).ToString(), 
@@ -38,6 +39,7 @@ public class GameStartController : MonoBehaviour
                     Random.Range(5, 9)));
 
                 playerDeck.InsertCard(card);
+                yield return new WaitForSeconds(1.1f);
             }
             
         }

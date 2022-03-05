@@ -10,7 +10,10 @@ namespace VenCore.UI.Common.Indicators
     {
         public override void UpdateValue(int value)
         {
-            DOTween.To(() => currentValue, (x) => SetText(x), value, 1);
+            DOTween.To(() => currentValue, (x) => SetText(x), value, 1).OnComplete(() =>
+            {
+                currentValue = value;
+            });
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace RRTest.UI
 {
-    public class DragElement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public abstract class DragElement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         public System.Action<PointerEventData> OnStartDrag;
         public System.Action<PointerEventData> OnFinishDrag;

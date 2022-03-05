@@ -11,13 +11,12 @@ namespace RRTest.Controllers.Decks
 {
     public abstract class BaseDeck : MonoBehaviour
     {
-        [SerializeField] protected RectTransform cardContainerTransform;
-        protected List<CardItemVisualizator> cards;
+        protected List<CardItemVisualizator> cards = new List<CardItemVisualizator>();
+        public RectTransform RectTransform => GetComponent<RectTransform>();
 
         public void InsertCard(CardItemVisualizator cardItemVisualizator)
         {
             cards.Add(cardItemVisualizator);
-            cardItemVisualizator.GetComponent<RectTransform>().parent = cardContainerTransform;
             cardItemVisualizator.Item.OnChangeItem += () => CheckCard(cardItemVisualizator);
             cardItemVisualizator.GetComponent<CardDragElement>().OnStartDrag += (data) => RemoveCard(cardItemVisualizator);
             cardItemVisualizator.GetComponent<CardDragElement>().SetDeck(this);
@@ -26,7 +25,6 @@ namespace RRTest.Controllers.Decks
         public void RemoveCard(CardItemVisualizator cardItemVisualizator)
         {
             cards.Remove(cardItemVisualizator);
-            cardItemVisualizator.GetComponent<RectTransform>().parent = cardContainerTransform.parent;
             cardItemVisualizator.Item.OnChangeItem -= () => CheckCard(cardItemVisualizator);
             cardItemVisualizator.GetComponent<DragElement>().OnStartDrag -= (data) => RemoveCard(cardItemVisualizator);
             MoveCards();
@@ -36,13 +34,13 @@ namespace RRTest.Controllers.Decks
             if (cardItemVisualizator.Item.HP > 0) return;
 
             RemoveCard(cardItemVisualizator);
-            Destroy(cardItemVisualizator.gameObject, 0.5f);
+            Destroy(cardItemVisualizator.gameObject, 1.1f);
         }
         protected abstract void MoveCards();
         public virtual void OnDrop(PointerEventData eventData)
         {
             InsertCard(eventData.pointerDrag.GetComponent<CardItemVisualizator>());
         }
-        private void RaycastTarget(bool active) => GetComponent<Image>().raycastTarget = active;
+        public void RaycastTarget(bool active) => GetComponent<Image>().raycastTarget = active;
     }
 }
