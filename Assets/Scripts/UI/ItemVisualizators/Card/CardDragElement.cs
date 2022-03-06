@@ -28,7 +28,7 @@ namespace RRTest.UI.ItemsVisualizators.Card
         private void EndDrag(PointerEventData data)
         {
             ChangeDeckActive(false);
-            if(data.pointerEnter.TryGetComponent<BaseDeck>(out var deck))
+            if(data.pointerEnter != null && data.pointerEnter.TryGetComponent<BaseDeck>(out var deck))
             {
                 deck.InsertCard(cardItemVisualizator);
             }

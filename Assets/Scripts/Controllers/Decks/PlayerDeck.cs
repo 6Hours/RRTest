@@ -17,11 +17,10 @@ namespace RRTest.Controllers.Decks
             {
                 var cardTransform = card.GetComponent<RectTransform>();
                 cardTransform.DOAnchorPos(GetCardPositionFromIndex(index), 1f);
-                cardTransform.DORotate(new Vector3(0f, 0f, GetCardRotationAngleFromIndex(index)), 1, RotateMode.Fast);
+                cardTransform.DORotate(GetCardRotationAngleFromIndex(index), 1, RotateMode.Fast);
                 index++;
             });
         }
-
         private Vector2 GetCardPositionFromIndex(int index)
         {
             var cardRect = cards[index].GetComponent<RectTransform>();
@@ -32,10 +31,10 @@ namespace RRTest.Controllers.Decks
                 - space * cards.Count / 2 + space * index,
                 - Mathf.Abs(Mathf.Sin(-0.5f + 1f / cards.Count * index) * RectTransform.sizeDelta.y * 0.4f));
         }
-        private float GetCardRotationAngleFromIndex(int index)
+        private Vector3 GetCardRotationAngleFromIndex(int index)
         {
             var angleSpace = 90f / cards.Count;
-            return angleSpace * (cards.Count / 2) - angleSpace * index;
+            return Vector3.forward * (angleSpace * (cards.Count / 2) - angleSpace * index);
         }
         public void RandomEffectExecute()
         {

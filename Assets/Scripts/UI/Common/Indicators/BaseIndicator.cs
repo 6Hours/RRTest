@@ -14,6 +14,7 @@ namespace VenCore.UI.Common.Indicators
 
         public virtual void SetText(T value)
         {
+            currentValue = value;
             textElement.text = value.ToString();
         }
     }
